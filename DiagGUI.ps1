@@ -78,7 +78,7 @@
         Write-Host "Mapping network share..."
 
         $Credential = Get-Credential
-        New-SmbMapping -RemotePath \\sccm-smb.svc.ny.gov\PaaS_SCCM_SLOG -UserName $Credential.UserName -Password $Credential.GetNetworkCredential().Password
+        New-SmbMapping -RemotePath \\ -UserName $Credential.UserName -Password $Credential.GetNetworkCredential().Password
                 Write-Host "Network share mapped."
         
         Write-Host "Testing network share connection..."
