@@ -1,6 +1,5 @@
 # Operating System Deployment
 # Generic WinPE Diagnostics
-# Support Contact: Ariana Tifft (ariana.tifft@its.ny.gov) or L3 CTO ConfigMgr
 
 #------------[Initialisation]------------
 
