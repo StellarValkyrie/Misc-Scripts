@@ -15,7 +15,7 @@
 
     # Define the size, title and background color
     $OSDLogUploadForm.ClientSize         = '500,200'
-    $OSDLogUploadForm.text               = "NYS ITS OSD Diagnostic Image"
+    $OSDLogUploadForm.text               = ""
     $OSDLogUploadForm.BackColor          = "#ffffff"
     $OSDLogUploadForm.FormBorderStyle    = 'FixedDialog'
 
@@ -82,10 +82,10 @@
                 Write-Host "Network share mapped."
         
         Write-Host "Testing network share connection..."
-        IF (Test-Path 'FileSystem::\\sccm-smb.svc.ny.gov\PaaS_SCCM_SLOG\DiagUploadLog') 
+        IF (Test-Path 'FileSystem::\\') 
             {
                 Write-Host "Connection to network share established."
-                Get-CimInstance win32_bios | New-Item -Path "FileSystem::\\sccm-smb.svc.ny.gov\PaaS_SCCM_SLOG\DiagUploadLog" -Name {$_.serialnumber} -ItemType "directory" -ErrorAction SilentlyContinue
+                Get-CimInstance win32_bios | New-Item -Path "FileSystem::\\" -Name {$_.serialnumber} -ItemType "directory" -ErrorAction SilentlyContinue
                 Write-Host "Folder created."
 
                 IF (Get-PSDrive C)
@@ -97,9 +97,9 @@
                             Get-Date | Out-File C:\Windows\Logs\OSDTests\datetime.txt
 
                         # Copying log files to network share
-                            Get-CimInstance win32_bios | Copy-Item C:\_SMSTaskSequence\Logs\* -Recurse -Destination {"\\sccm-smb.svc.ny.gov\PaaS_SCCM_SLOG\DiagUploadLog\" + $_.serialnumber} -ErrorAction SilentlyContinue
-                            Get-CimInstance win32_bios | Copy-Item C:\Windows\Logs\* -Recurse -Destination {"\\sccm-smb.svc.ny.gov\PaaS_SCCM_SLOG\DiagUploadLog\" + $_.serialnumber} -ErrorAction SilentlyContinue
-                            Get-CimInstance win32_bios | Copy-Item C:\Windows\CCM\Logs\* -Recurse -Destination {"\\sccm-smb.svc.ny.gov\PaaS_SCCM_SLOG\DiagUploadLog\" + $_.serialnumber} -ErrorAction SilentlyContinue
+                            Get-CimInstance win32_bios | Copy-Item C:\_SMSTaskSequence\Logs\* -Recurse -Destination {"\\" + $_.serialnumber} -ErrorAction SilentlyContinue
+                            Get-CimInstance win32_bios | Copy-Item C:\Windows\Logs\* -Recurse -Destination {"\\" + $_.serialnumber} -ErrorAction SilentlyContinue
+                            Get-CimInstance win32_bios | Copy-Item C:\Windows\CCM\Logs\* -Recurse -Destination {"\\" + $_.serialnumber} -ErrorAction SilentlyContinue
                         
                         Write-Host "Files uploaded to network share."
                         [System.Windows.MessageBox]::Show('Files were uploaded successfully.','Success','OK')
